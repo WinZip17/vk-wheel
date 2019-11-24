@@ -1226,3 +1226,7 @@
 .canvasShell {
     min-height: 200px;
 }
+
+.canvas {
+    margin: auto;
+}

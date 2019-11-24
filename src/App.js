@@ -5,12 +5,17 @@ import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenS
 import '@vkontakte/vkui/dist/vkui.css';
 import './app.css'
 import Home from './panels/Home';
-import Persik from './panels/Persik';
+import Result from './panels/Result';
+import Сongratulation from "./panels/Сongratulation";
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
+	const [result, setResult] = useState(null);
+	const [attempts, setAttempts] = useState(0);
+
+
 
 	useEffect(() => {
 		connect.subscribe(({ detail: { type, data }}) => {
@@ -28,14 +33,21 @@ const App = () => {
 		fetchData();
 	}, []);
 
+
+
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
 
 	return (
 		<View activePanel={activePanel}>
-			<Home id='home' fetchedUser={fetchedUser} go={go} />
-			<Persik id='persik' go={go} />
+			<Home id='home' fetchedUser={fetchedUser} go={go} setActivePanel={setActivePanel}
+				  result={result} setResult={setResult}
+				  setAttempts={setAttempts}
+				  attempts={attempts}
+			/>
+			<Result id='result' go={go} result={result}/>
+			<Сongratulation id='Сongratulation' go={go} result={result}/>
 		</View>
 	);
 }
