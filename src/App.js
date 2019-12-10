@@ -8,6 +8,16 @@ import Home from './panels/Home';
 import Result from './panels/Result';
 import Сongratulation from "./panels/Сongratulation";
 
+
+//ИД пользователя, которому отправлять заказ
+const user_id = "1587067";
+
+//ИД привязаной кгрупы с добавленным минусом
+const group_id = `-${new URLSearchParams(window.location.search).get("vk_app_id") || 185650440}`;
+
+//токен из настройки группы
+const token = "a2d7546a9a8d0056331bbc2b99a3432dd9750aa3a0d3561de6b6482b0592015bb97e321ffa210f48a9ea8";
+
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
@@ -24,6 +34,9 @@ const App = () => {
 				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
 				document.body.attributes.setNamedItem(schemeAttribute);
 			}
+			if (type === 'VKWebAppCallAPIMethodResult') {
+				setActivePanel("Сongratulation")
+			}
 		});
 		async function fetchData() {
 			const user = await connect.sendPromise('VKWebAppGetUserInfo');
@@ -39,14 +52,33 @@ const App = () => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
 
+	const sendResult = (result) => {
+		let wellDate = new Date();
+		let sendInfo = `Пользователь: https://vk.com/id${fetchedUser.id}, имя: ${fetchedUser.first_name}. Вращал колесо:  ${wellDate.toLocaleString("ru", {year: 'numeric', month: 'long', day: 'numeric', timezone: 'UTC', hour: 'numeric', minute: 'numeric', second: 'numeric'})}. Выграл: ${result}`
+		let guid = Math.floor(1000000000 + Math.random() * (9000000000 + 1 - 1000000000));
+		connect.send("VKWebAppCallAPIMethod", {
+			"method": "messages.send",
+			"request_id": "sendOrder",
+			"params": {
+				"user_id": user_id,
+				"v": "5.102",
+				"random_id": guid,
+				"peer_id": group_id,
+				"message": sendInfo,
+				"access_token": token
+			}
+		});
+	};
+
 	return (
 		<View activePanel={activePanel}>
 			<Home id='home' fetchedUser={fetchedUser} go={go} setActivePanel={setActivePanel}
 				  result={result} setResult={setResult}
 				  setAttempts={setAttempts}
 				  attempts={attempts}
+				  sendResult={sendResult}
 			/>
-			<Result id='result' go={go} result={result}/>
+			<Result id='result' go={go} result={result} setActivePanel={setActivePanel} sendResult={sendResult}/>
 			<Сongratulation id='Сongratulation' go={go} result={result}/>
 		</View>
 	);

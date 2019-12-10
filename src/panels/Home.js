@@ -1,9 +1,7 @@
 import React, {useRef, useEffect, useState, createContext, useContext} from 'react';
 import PropTypes from 'prop-types';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
-import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
-import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
 
 
@@ -13,7 +11,7 @@ let sections = ["один", "два", "три", "четыре", "пять", "ш�
 let probability = [0, 1, 0, 0, 0, 0, 3, 0, 0, 0]
 
 const Home = (props) => {
-	let {id, go, fetchedUser} = props;
+	let {id} = props;
 	const canvas = useRef(null);
 	const canvas2 = useRef(null);
 	const canvas3 = useRef(null);
@@ -78,13 +76,6 @@ const Home = (props) => {
 					ctx.shadowColor = "#000";
 					ctx.shadowBlur = r/100;
 				}
-				ctx.font = "bold " + r/sections.length*0.7 + "px serif";
-				ctx.textAlign = "center";
-				ctx.textBaseline = "middle";
-				ctx.translate(cx, cy);
-				ctx.rotate(a);
-				ctx.fillText(sections[i], r*0.62, 0);
-				ctx.restore();
 			}
 			wheels.push(c);
 		}
@@ -168,7 +159,7 @@ const Home = (props) => {
 					props.setActivePanel("result")
 				} else if (props.attempts === 1) {
 					props.setAttempts(2)
-					props.setActivePanel("Сongratulation")
+                    props.sendResult(sections[selected])
 				}
 			};
 		}
@@ -190,7 +181,6 @@ const Home = (props) => {
 				fullDegrees = fullDegrees - degrees
 				if (i === result + 1) startDegreesResult = fullDegrees + 1
 			}
-			console.log(result + 1)
 			let randomSpeed = getRandomInt(startDegreesResult, finishDegreesResult) * 0.00034906
 
 			// spin(0.5+Math.random()*0.125, 5000);
@@ -206,10 +196,10 @@ const Home = (props) => {
 	};
 
 	return (
-		<Panel id={id}>
-			<div>
+		<Panel id={id} >
+			<div className='panel-well'>
+                <canvas ref={canvas3} id="canvas" width="956" height="754" className='canvas'></canvas>
 			</div>
-				<canvas ref={canvas3} id="canvas" width="956" height="754" className='canvas'></canvas>
 				<Div align='center'>
 					<Button onClick={run} disabled={running} align='center'>
 						Вращать колесо
