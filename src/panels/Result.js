@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { platform, IOS } from '@vkontakte/vkui';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import Button from "@vkontakte/vkui/dist/components/Button/Button";
 import "./Сongratulation.css"
+import ScreenSpinner from "@vkontakte/vkui/dist/components/Spinner/Spinner";
 
 const Result = props => (
 	<Panel id={props.id}>
@@ -19,6 +19,7 @@ const Result = props => (
 				<br/>
 				<br/>
 				<Button onClick={() => {
+					props.setPopout(<ScreenSpinner size='large' className='ScreenSpinner'/>)
 					props.sendResult(props.result)
 				}} align='right'>
 					Забрать приз

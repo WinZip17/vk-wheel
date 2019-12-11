@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
+import ScreenSpinner from "@vkontakte/vkui/dist/components/Spinner/Spinner";
 
 
 
@@ -76,6 +77,13 @@ const Home = (props) => {
 					ctx.shadowColor = "#000";
 					ctx.shadowBlur = r/100;
 				}
+				ctx.font = "bold " + r/sections.length*0.7 + "px serif";
+				ctx.textAlign = "center";
+				ctx.textBaseline = "middle";
+				ctx.translate(cx, cy);
+				ctx.rotate(a);
+				ctx.fillText(sections[i], r*0.62, 0);
+				ctx.restore();
 			}
 			wheels.push(c);
 		}
@@ -159,6 +167,7 @@ const Home = (props) => {
 					props.setActivePanel("result")
 				} else if (props.attempts === 1) {
 					props.setAttempts(2)
+					props.setPopout(<ScreenSpinner size='large' className='ScreenSpinner'/>)
                     props.sendResult(sections[selected])
 				}
 			};
