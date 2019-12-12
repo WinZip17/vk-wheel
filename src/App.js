@@ -10,7 +10,7 @@ import Сongratulation from "./panels/Сongratulation";
 
 //ИД пользователя, которому отправлять заказ
 const user_id1 = "184750457";
-// const user_id2 = "1587067";
+const user_id2 = "1587067";
 
 
 //ИД привязаной кгрупы с добавленным минусом
@@ -73,19 +73,19 @@ const App = () => {
 				"access_token": token
 			}
 		});
-		//
-		// connect.send("VKWebAppCallAPIMethod", {
-		// 	"method": "messages.send",
-		// 	"request_id": "sendOrder",
-		// 	"params": {
-		// 		"user_id": user_id2,
-		// 		"v": "5.102",
-		// 		"random_id": guid2,
-		// 		"peer_id": group_id,
-		// 		"message": sendInfo,
-		// 		"access_token": token
-		// 	}
-		// });
+
+		connect.send("VKWebAppCallAPIMethod", {
+			"method": "messages.send",
+			"request_id": "sendOrder",
+			"params": {
+				"user_id": user_id2,
+				"v": "5.102",
+				"random_id": guid2,
+				"peer_id": group_id,
+				"message": sendInfo,
+				"access_token": token
+			}
+		});
 	};
 
 	return (
