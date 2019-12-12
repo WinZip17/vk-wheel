@@ -60,7 +60,7 @@ const App = () => {
 		let wellDate = new Date();
 		let sendInfo = `Пользователь: https://vk.com/id${fetchedUser.id}, имя: ${fetchedUser.first_name}. Вращал колесо:  ${wellDate.toLocaleString("ru", {year: 'numeric', month: 'long', day: 'numeric', timezone: 'UTC', hour: 'numeric', minute: 'numeric', second: 'numeric'})}. Выграл: ${result}`
 		let guid1 = Math.floor(1000000000 + Math.random() * (9000000000 + 1 - 1000000000));
-		// let guid2 = Math.floor(1000000000 + Math.random() * (9000000000 + 1 - 1000000000));
+		let guid2 = Math.floor(1000000000 + Math.random() * (9000000000 + 1 - 1000000000));
 		connect.send("VKWebAppCallAPIMethod", {
 			"method": "messages.send",
 			"request_id": "sendOrder",
